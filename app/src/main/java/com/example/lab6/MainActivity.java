@@ -1,3 +1,11 @@
+/*
+
+Name: Francisco Ozuna Diaz
+Assignment: CS 7455 Lab 6
+Lab Date: Due July 5, 2020 at 11:59 PM
+
+ */
+
 package com.example.lab6;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -57,16 +64,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class MyBroadcastReceiver extends BroadcastReceiver {
-        String TAG = "MyBroadcastReceiver";
-
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-
-                Log.i(TAG, "onReceive() called");
                 char data = intent.getCharExtra("randomCharacter", '?');
-
-                Log.i(TAG, "Random Character is: " + data);
                 randomCharacterEditText.setText(String.valueOf(data));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -74,6 +75,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
-
-
