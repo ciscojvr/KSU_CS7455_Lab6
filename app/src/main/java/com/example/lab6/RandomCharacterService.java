@@ -10,13 +10,9 @@ import androidx.annotation.Nullable;
 import java.util.Random;
 
 public class RandomCharacterService extends Service {
-    private char myRandomCharacter;
     private boolean isRandomGeneratorOn;
 
-    private final int MIN = 0;
-    private final int MAX = 0;
-
-    char [] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     private final String TAG = "RandomCharacterService";
 
@@ -41,9 +37,16 @@ public class RandomCharacterService extends Service {
             try {
                 Thread.sleep(1000);
                 if (isRandomGeneratorOn) {
+                    int MIN = 0;
+                    int MAX = 25;
                     int randomIdx = new Random().nextInt(MAX) + MIN;
-                    myRandomCharacter = alphabet[randomIdx];
+                    char myRandomCharacter = alphabet[randomIdx];
                     Log.i(TAG, "Thread ID is " + Thread.currentThread().getId() + ", Random Character is " + myRandomCharacter);
+
+                    Intent broadcastIntent = new Intent();
+                    broadcastIntent.setAction("my.custom.action.tag.lab6");
+                    broadcastIntent.putExtra("randomCharacter", myRandomCharacter);
+                    sendBroadcast(broadcastIntent);
                 }
             } catch (InterruptedException e) {
                 Log.i(TAG, "Thread Interrupted.");
@@ -53,13 +56,11 @@ public class RandomCharacterService extends Service {
 
     private void stopRandomGenerator() { isRandomGeneratorOn = false; }
 
-    public char getRandomCharacter() { return myRandomCharacter; }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         stopRandomGenerator();
-        Log.i(TAG, "Service Destroyed...");
+        Log.i(TAG,"Service Destroyed...");
     }
 
     @Nullable
